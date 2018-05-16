@@ -18,6 +18,8 @@ RSpec.describe HalClient::Representation do
     "embed1": {
       "_links": { "self": { "href": "http://example.com/baz" }}
     }
+    , "empty_embed_list": []
+    , "empty_embed_hash": {}
     ,"dup": {
       "dupProperty": "foo"
       ,"_links": { "self": { "href": "http://example.com/dup" }}
@@ -194,6 +196,16 @@ HAL
       it "includes related resource representation" do
         expect(subject.first.href).to eq "http://example.com/baz"
       end
+    end
+
+    context "for empty embedded list" do
+      subject { repr.fetch "empty_embed_list" }
+      it { is_expected.to_not be_nil }
+    end
+
+    context "for empty embedded hash" do
+      subject { repr.fetch "empty_embed_hash" }
+      it { is_expected.to_not be_nil }
     end
 
     context "non-existent item w/o default" do
